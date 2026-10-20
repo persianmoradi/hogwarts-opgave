@@ -13,9 +13,6 @@ insert into houses (name, colors, founder) values
     ('Hufflepuff', 'Yellow and black', 'Helga Hufflepuff');
 
 
-select * from houses;
-
-
 -- Teachers tabel (Fuld CRUD (Create, Update, Delete))
 create table teachers (
     id serial primary key,
@@ -27,8 +24,6 @@ insert into teachers (name, house_id) values
     ('Severus Snape', 2),
     ('Minerva McGonagall', 1),
     ('Filius Flitwick', 3);
-
-select * from teachers
 
 -- Students tabel (Fuld CRUD (Create, Update, Delete))
 
