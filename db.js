@@ -1,5 +1,6 @@
-require("dotenv").config();
-const { Pool } = require("pg");
+import "dotenv/config"; // gør det muligt at bruge .env filen
+import pg from "pg"; // PostgreSQL driver
+const { Pool } = pg;
 
 const pool = new Pool({
     host: process.env.PGHOST,
@@ -8,4 +9,4 @@ const pool = new Pool({
     password: process.env.PGPASSWORD
 });
 
-module.exports = pool;
+export default pool;

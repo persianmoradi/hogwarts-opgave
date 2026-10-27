@@ -20,10 +20,11 @@
 
 // --------------------- OPSÆTNING ---------------------
 
-const express = require("express");
+import express from "express";
+import pool from "./db.js"; // forbindelsen til PostgreSQL (se db.js og .env) - .js SKAL med i ES modules
+
 const app = express();
 const port = 3000;
-const pool = require("./db"); // forbindelsen til PostgreSQL (se db.js og .env)
 
 app.use(express.json()); // gør at vi kan læse JSON i req.body (POST og PUT)
 
