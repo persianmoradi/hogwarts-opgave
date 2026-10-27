@@ -28,6 +28,8 @@ const port = 3000;
 
 app.use(express.json()); // gør at vi kan læse JSON i req.body (POST og PUT)
 
+import * as housesRepo from "./repos/houses.repos.js"; // importér alle funktioner fra houses.repos.js
+
 
 // =====================================================================
 //  HOUSES  (kun læsning - de fire houses ligger fast i databasen)
@@ -37,9 +39,10 @@ app.use(express.json()); // gør at vi kan læse JSON i req.body (POST og PUT)
 // GET /houses - hent alle houses
 app.get("/houses", async (req, res) => {
     try {
-        const result = await pool.query("SELECT * FROM houses");
-        res.status(200).json(result.rows);
-    } catch (error) {
+        const getHouses = await housesRepo.getHouses; // hent funktionen fra repos/houses.repos.js
+        res.json(getHouses());
+    } 
+    catch (error) {
         console.log(error);
         res.status(500).send({ message: "Error connecting to database" });
     }
@@ -47,7 +50,7 @@ app.get("/houses", async (req, res) => {
 
 // GET /houses/:id - hent ét house
 app.get("/houses/:id", async (req, res) => {
-    try {
+    try {    
         const result = await pool.query("SELECT * FROM houses WHERE id = $1", [req.params.id]);
         if (result.rows.length === 0) {
             return res.status(404).send({ message: "House not found" });
