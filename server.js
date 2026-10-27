@@ -51,12 +51,16 @@ app.get("/houses", async (req, res) => {
 // GET /houses/:id - hent ét house
 app.get("/houses/:id", async (req, res) => {
     try {    
-        const result = await pool.query("SELECT * FROM houses WHERE id = $1", [req.params.id]);
-        if (result.rows.length === 0) {
-            return res.status(404).send({ message: "House not found" });
+        const id = req.params.id;
+        const house = await housesRepo.getHouseByID(id); // hent funktionen fra repos/houses.repos.js
+        if (house) {
+            res.status(200).json(house);
+        } 
+        else {
+            res.status(404).send({ message: "House not found" });
         }
-        res.status(200).json(result.rows[0]);
-    } catch (error) {
+        } 
+        catch (error) {
         console.log(error);
         res.status(500).send({ message: "Error connecting to database" });
     }
