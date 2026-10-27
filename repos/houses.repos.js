@@ -1,4 +1,4 @@
-import pool from "./db.js";
+import pool from "../db.js";
 
 export async function getHouses() {
     const result = await pool.query("SELECT * FROM houses");
@@ -7,10 +7,10 @@ export async function getHouses() {
 
 export async function getHouseByID(id) {
     const result = await pool.query("SELECT * FROM houses WHERE id = $1", [id]);
-    
-    if (one.rowCount === 0) {
+
+    if (result.rowCount === 0) {
         return null; // Returner null, hvis der ikke findes et house med det givne id
     }
-    
+
     return result.rows[0];
 }
