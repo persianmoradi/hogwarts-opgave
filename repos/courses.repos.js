@@ -6,8 +6,6 @@ export async function getCourses() {
     return result.rows;
 }
 
-// Henter ét course inkl. navnet på dets teacher
-// LEFT JOIN: et course uden teacher bliver stadig vist (teacher_name er så null)
 export async function getCourseByID(id) {
     const result = await pool.query(
         "SELECT courses.id, courses.name, courses.teacher_id, teachers.name AS teacher_name " +
@@ -17,7 +15,7 @@ export async function getCourseByID(id) {
     );
 
     if (result.rowCount === 0) {
-        return null; // Returner null, hvis der ikke findes et course med det givne id
+        return null;
     }
 
     return result.rows[0];
@@ -39,20 +37,7 @@ export async function updateCourse(id, name) {
     );
 
     if (result.rowCount === 0) {
-        return null; // Returner null, hvis der ikke findes et course med det givne id
-    }
-
-    return result.rows[0];
-}
-
-export async function updateCourseTeacher(id, teacher_id) {
-    const result = await pool.query(
-        "UPDATE courses SET teacher_id = $1 WHERE id = $2 RETURNING *",
-        [teacher_id, id]
-    );
-
-    if (result.rowCount === 0) {
-        return null; // Returner null, hvis der ikke findes et course med det givne id
+        return null;
     }
 
     return result.rows[0];
@@ -61,13 +46,12 @@ export async function updateCourseTeacher(id, teacher_id) {
 export async function deleteCourse(id) {
     const result = await pool.query("DELETE FROM courses WHERE id = $1", [id]);
 
-    return result.rowCount > 0; // Returner true, hvis et course blev slettet, ellers false
+    return result.rowCount > 0;
 }
 
 
 // --------------------- STUDENTS PÅ ET COURSE (koblingstabellen course_students) ---------------------
 
-// Henter listen af students på et course (tom liste hvis ingen)
 export async function getStudentsInCourse(course_id) {
     const result = await pool.query(
         "SELECT students.id, students.name " +
@@ -77,23 +61,4 @@ export async function getStudentsInCourse(course_id) {
     );
 
     return result.rows;
-}
-
-// Kaster en fejl med code 23505, hvis studenten allerede er på course'et (primærnøglen forhindrer dubletter)
-export async function addStudentToCourse(course_id, student_id) {
-    const result = await pool.query(
-        "INSERT INTO course_students (course_id, student_id) VALUES ($1, $2) RETURNING *",
-        [course_id, student_id]
-    );
-
-    return result.rows[0];
-}
-
-export async function removeStudentFromCourse(course_id, student_id) {
-    const result = await pool.query(
-        "DELETE FROM course_students WHERE course_id = $1 AND student_id = $2",
-        [course_id, student_id]
-    );
-
-    return result.rowCount > 0; // Returner true, hvis koblingen blev slettet, ellers false
 }

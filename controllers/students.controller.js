@@ -1,4 +1,4 @@
-import * as studentsRepo from "../repos/students.repos.js"; // importér alle funktioner fra students.repos.js
+import * as studentsRepo from "../repos/students.repos.js"; 
 import * as housesRepo from "../repos/houses.repos.js";
 
 export async function getStudents(req, res) {
@@ -26,7 +26,6 @@ export async function getStudentByID(req, res) {
     }
 }
 
-// Body: { "name": "...", "year": 1, "house_id": 1 }   (house_id er valgfri, men skal findes hvis den er med)
 export async function createStudent(req, res) {
     try {
         const { name, year, house_id } = req.body;
@@ -45,7 +44,6 @@ export async function createStudent(req, res) {
     }
 }
 
-// 1. id'et hentes fra routen  2. studenten findes i databasen (404)  3. name, year og house ændres
 export async function updateStudent(req, res) {
     try {
         const { name, year, house_id } = req.body;

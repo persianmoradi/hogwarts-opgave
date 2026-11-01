@@ -9,7 +9,7 @@ export async function getTeacherByID(id) {
     const result = await pool.query("SELECT * FROM teachers WHERE id = $1", [id]);
 
     if (result.rowCount === 0) {
-        return null; // Returner null, hvis der ikke findes en teacher med det givne id
+        return null;
     }
 
     return result.rows[0];
@@ -31,7 +31,7 @@ export async function updateTeacher(id, name, house_id) {
     );
 
     if (result.rowCount === 0) {
-        return null; // Returner null, hvis der ikke findes en teacher med det givne id
+        return null;
     }
 
     return result.rows[0];
@@ -40,5 +40,5 @@ export async function updateTeacher(id, name, house_id) {
 export async function deleteTeacher(id) {
     const result = await pool.query("DELETE FROM teachers WHERE id = $1", [id]);
 
-    return result.rowCount > 0; // Returner true, hvis en teacher blev slettet, ellers false
+    return result.rowCount > 0;
 }

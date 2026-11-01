@@ -10,7 +10,7 @@ export async function getStudentByID(id) {
     const result = await pool.query("SELECT * FROM students WHERE id = $1", [id]);
 
     if (result.rowCount === 0) {
-        return null; // Returner null, hvis der ikke findes en student med det givne id
+        return null;
     }
 
     return result.rows[0];
@@ -32,7 +32,7 @@ export async function updateStudent(id, name, year, house_id) {
     );
 
     if (result.rowCount === 0) {
-        return null; // Returner null, hvis der ikke findes en student med det givne id
+        return null;
     }
 
     return result.rows[0];
@@ -41,5 +41,5 @@ export async function updateStudent(id, name, year, house_id) {
 export async function deleteStudent(id) {
     const result = await pool.query("DELETE FROM students WHERE id = $1", [id]);
 
-    return result.rowCount > 0; // Returner true, hvis en student blev slettet, ellers false
+    return result.rowCount > 0;
 }

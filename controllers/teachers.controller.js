@@ -26,7 +26,6 @@ export async function getTeacherByID(req, res) {
     }
 }
 
-// Body: { "name": "...", "house_id": 1 }   (house_id er valgfri, men skal findes hvis den er med)
 export async function createTeacher(req, res) {
     try {
         const { name, house_id } = req.body;
@@ -45,7 +44,6 @@ export async function createTeacher(req, res) {
     }
 }
 
-// 1. id'et hentes fra routen  2. teacheren findes i databasen (404)  3. name og house ændres
 export async function updateTeacher(req, res) {
     try {
         const { name, house_id } = req.body;

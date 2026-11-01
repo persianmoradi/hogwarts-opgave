@@ -1,4 +1,4 @@
-import * as housesRepo from "../repos/houses.repos.js"; // importér alle funktioner fra houses.repos.js
+import * as housesRepo from "../repos/houses.repos.js";
 
 export async function getHouses(req, res) {
     try {

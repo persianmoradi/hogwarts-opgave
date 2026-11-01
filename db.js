@@ -1,5 +1,5 @@
-import "dotenv/config"; // gør det muligt at bruge .env filen
-import pg from "pg"; // PostgreSQL driver
+import "dotenv/config";
+import pg from "pg";
 const { Pool } = pg;
 
 const pool = new Pool({
