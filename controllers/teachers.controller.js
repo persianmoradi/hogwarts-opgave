@@ -23,7 +23,7 @@ export async function createTeacher(req, res) {
         if (house_id !== undefined && house_id !== null && !(await housesRepo.getHouseByID(house_id))) {
             throw new HTTPError(404, "House not found");
         }
-        const teacher = await teachersRepo.createTeacher(name, house_id);
+        const teacher = await teachersRepo.createTeacher({ name, house_id });
         res.status(201).json(teacher);
 }
 
