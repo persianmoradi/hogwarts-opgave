@@ -39,11 +39,10 @@ export async function createTeacher(teacher) {
 }
 
 
-export async function updateTeacher(id, name, house_id) {
-    console.log (house_id)
+export async function updateTeacher(id, teacher) {
     const result = await pool.query(
         "UPDATE teachers SET name = $1, house_id = $2 WHERE id = $3 RETURNING *",
-        [name, house_id, id]
+        [teacher.name, teacher.house_id, id]
     );
 
     if (result.rowCount === 0) return null;

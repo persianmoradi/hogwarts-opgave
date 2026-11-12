@@ -1,6 +1,8 @@
 import * as coursesRepo from "../repos/courses.repos.js"; // importér alle funktioner fra courses.repos.js
 import * as teachersRepo from "../repos/teachers.repos.js";
 import HTTPError from "../errorhandling/HTTPError.js";
+import createCourseDto from "../dtos/createcourse.dto.js";
+import updateCourseDto from "../dtos/updatecourse.dto.js";
 
 export async function getCourses(req, res) {
         const courses = await coursesRepo.getCourses();
@@ -17,27 +19,26 @@ export async function getCourseByID(req, res) {
 }
 
 export async function createCourse(req, res) {
-        const { name, teacher_id } = req.body;
-        if (!name) {
-            throw new HTTPError(400, "name is required");
-        }
-        if (teacher_id !== undefined && teacher_id !== null && !(await teachersRepo.getTeacherByID(teacher_id))) {
-            throw new HTTPError(404, "Teacher not found");
-        }
-        const course = await coursesRepo.createCourse(name, teacher_id);
-        res.status(201).json(course);
+    const input = req.body;
+    const courseData = createCourseDto.parse(input);
+
+    const { teacher_id } = courseData;
+    if (teacher_id != null && !(await teachersRepo.getTeacherByID(teacher_id))) {
+        throw new HTTPError(404, "Teacher not found");
+    }
+    const course = await coursesRepo.createCourse(courseData);
+    res.status(201).json(course);
 }
 
 export async function updateCourse(req, res) {
-        const { name } = req.body;
-        if (!name) {
-            throw new HTTPError(400, "name is required");
-        }
-        const course = await coursesRepo.updateCourse(req.params.id, name);
-        if (!course) {
-            throw new HTTPError(404, "Course not found");
-        }
-        res.status(200).json(course);
+    const input = req.body;
+    const courseData = updateCourseDto.parse(input);
+
+    const course = await coursesRepo.updateCourse(req.params.id, courseData);
+    if (!course) {
+        throw new HTTPError(404, "Course not found");
+    }
+    res.status(200).json(course);
 }
 
 export async function deleteCourse(req, res) {

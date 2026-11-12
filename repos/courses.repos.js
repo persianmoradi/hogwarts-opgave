@@ -21,19 +21,19 @@ export async function getCourseByID(id) {
     return result.rows[0];
 }
 
-export async function createCourse(name, teacher_id) {
+export async function createCourse(course) {
     const result = await pool.query(
         "INSERT INTO courses (name, teacher_id) VALUES ($1, $2) RETURNING *",
-        [name, teacher_id]
+        [course.name, course.teacher_id]
     );
 
     return result.rows[0];
 }
 
-export async function updateCourse(id, name) {
+export async function updateCourse(id, course) {
     const result = await pool.query(
         "UPDATE courses SET name = $1 WHERE id = $2 RETURNING *",
-        [name, id]
+        [course.name, id]
     );
 
     if (result.rowCount === 0) {

@@ -1,6 +1,8 @@
 import * as studentsRepo from "../repos/students.repos.js"; 
 import * as housesRepo from "../repos/houses.repos.js";
 import HTTPError from "../errorhandling/HTTPError.js";
+import createStudentDto from "../dtos/createstudent.dto.js";
+import updateStudentDto from "../dtos/updatestudent.dto.js";
 
 export async function getStudents(req, res) {
         const students = await studentsRepo.getStudents();
@@ -16,31 +18,30 @@ export async function getStudentByID(req, res) {
 }
 
 export async function createStudent(req, res) {
+    const input = req.body;
+    const studentData = createStudentDto.parse(input);
 
-        const { name, year, house_id } = req.body;
-        if (!name) {
-            throw new HTTPError(400, "name is required");
-        }
-        if (house_id !== undefined && house_id !== null && !(await housesRepo.getHouseByID(house_id))) {
-            throw new HTTPError(404, "House not found");
-        }
-        const student = await studentsRepo.createStudent(name, year, house_id);
-        res.status(201).json(student);
+    const { house_id } = studentData;
+    if (house_id != null && !(await housesRepo.getHouseByID(house_id))) {
+        throw new HTTPError(404, "House not found");
+    }
+    const student = await studentsRepo.createStudent(studentData);
+    res.status(201).json(student);
 }
 
 export async function updateStudent(req, res) {
-        const { name, year, house_id } = req.body;
-        if (!name) {
-            throw new HTTPError(400, "name is required");
-        }
-        if (!(await studentsRepo.getStudentByID(req.params.id))) {
-            throw new HTTPError(404, "Student not found");
-        }
-        if (house_id !== undefined && house_id !== null && !(await housesRepo.getHouseByID(house_id))) {
-            throw new HTTPError(404, "House not found");
-        }
-        const student = await studentsRepo.updateStudent(req.params.id, name, year, house_id);
-        res.status(200).json(student);
+    const input = req.body;
+    const studentData = updateStudentDto.parse(input);
+
+    if (!(await studentsRepo.getStudentByID(req.params.id))) {
+        throw new HTTPError(404, "Student not found");
+    }
+    const { house_id } = studentData;
+    if (house_id != null && !(await housesRepo.getHouseByID(house_id))) {
+        throw new HTTPError(404, "House not found");
+    }
+    const student = await studentsRepo.updateStudent(req.params.id, studentData);
+    res.status(200).json(student);
 }
 
 export async function deleteStudent(req, res) {

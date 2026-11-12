@@ -1,5 +1,13 @@
+import { ZodError, prettifyError } from "zod";
+
 export default (err, req, res, next) => {
   console.error(err.stack);
+
+  // Ugyldigt input fra klienten (zod) er en 400, ikke en 500
+  if (err instanceof ZodError) {
+    err.statusCode = 400;
+    err.message = prettifyError(err);
+  }
 
   const statusCode = err.statusCode || 500;
 
