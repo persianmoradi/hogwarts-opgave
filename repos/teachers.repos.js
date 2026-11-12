@@ -21,7 +21,7 @@ export async function getTeacherByID(id) {
         FROM teachers 
         JOIN houses 
         ON teachers.house_id = houses.id
-        FROM WHERE id = $1`, [id]);
+        WHERE teachers.id = $1`, [id]);
 
     if (result.rowCount === 0) {
         return null;
