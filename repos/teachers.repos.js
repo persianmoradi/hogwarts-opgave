@@ -1,12 +1,27 @@
 import pool from "../db.js";
 
 export async function getTeachers() {
-    const result = await pool.query("SELECT * FROM teachers");
+    const result = await pool.query(
+        /*sql */
+        `
+        SELECT teachers.id, teachers.name, houses.name 
+        AS house
+        FROM teachers 
+        JOIN houses 
+        ON teachers.house_id = houses.id
+        `
+    );
     return result.rows;
 }
 
 export async function getTeacherByID(id) {
-    const result = await pool.query("SELECT * FROM teachers WHERE id = $1", [id]);
+    const result = await pool.query(/*sql */`
+        SELECT teachers.id, teachers.name, houses.name 
+        AS house
+        FROM teachers 
+        JOIN houses 
+        ON teachers.house_id = houses.id
+        FROM WHERE id = $1`, [id]);
 
     if (result.rowCount === 0) {
         return null;
