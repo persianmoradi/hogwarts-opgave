@@ -7,6 +7,7 @@ import teachersRouter from "./routes/teachers.routes.js";
 import housesRouter from "./routes/houses.routes.js";
 import studentsRouter from "./routes/students.routes.js";
 import coursesRouter from "./routes/courses.routes.js";
+import errorhandler from "./errorhandling/errorhandler.js";
 
 // Server Setup
 const app = express();
@@ -33,8 +34,12 @@ app.use(studentsRouter);
 //  COURSES: (CRUD + skift af teacher)
 app.use(coursesRouter);
 
+// Error Handling Middleware
+app.use(errorhandler);
 
 //  Server Start
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
 });
+
+
