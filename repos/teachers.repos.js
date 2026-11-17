@@ -8,7 +8,7 @@ export async function getTeachers() {
         AS house,
         teachers.employment_start, teachers.currently_active, teachers.deceased
         FROM teachers 
-        JOIN houses 
+        LEFT JOIN houses 
         ON teachers.house_id = houses.id
         `
     );

@@ -5,13 +5,13 @@ info:
 
 http:
   method: PUT
-  url: http://localhost:3000/teachers/1
+  url: http://localhost:3000/teachers/2
   body:
     type: json
     data: |-
       {
-        "name": "Severus Snape",
-        "house_id": 2,
+        "name": "Minerva McGonagall",
+        "house_id": 1,
         "employment_start": "1981-09-01",
         "currently_active": true,
         "deceased": false
