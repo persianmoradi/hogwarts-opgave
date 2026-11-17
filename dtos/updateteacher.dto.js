@@ -1,8 +1,4 @@
-import * as z from "zod";
+import createTeacherDto from "./createteacher.dto.js";
 
-const updateTeacherDto = z.object({
-    name: z.string().min(1),
-    house_id: z.int().nullable().optional(),
-});
-
-export default updateTeacherDto;
+// PUT erstatter hele læreren, så reglerne er de samme som ved create
+export default createTeacherDto;

@@ -11,7 +11,10 @@ http:
     data: |-
       {
         "name": "Severus Snape",
-        "house_id": 2
+        "house_id": 2,
+        "employment_start": "1981-09-01",
+        "currently_active": true,
+        "deceased": false
       }
   auth: inherit
 

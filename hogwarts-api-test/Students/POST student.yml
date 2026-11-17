@@ -11,7 +11,8 @@ http:
     data: |-
       {
         "name": "Harry Potter",
-        "year": 1,
+        "birthday": "1980-07-31",
+        "school_year": 3,
         "house_id": 1
       }
   auth: inherit

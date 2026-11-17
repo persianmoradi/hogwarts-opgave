@@ -7,6 +7,8 @@ import teachersRouter from "./routes/teachers.routes.js";
 import housesRouter from "./routes/houses.routes.js";
 import studentsRouter from "./routes/students.routes.js";
 import coursesRouter from "./routes/courses.routes.js";
+import gradesRouter from "./routes/grades.routes.js";
+import examsRouter from "./routes/exams.routes.js";
 import errorhandler from "./errorhandling/errorhandler.js";
 
 // Server Setup
@@ -33,6 +35,12 @@ app.use(studentsRouter);
 
 //  COURSES: (CRUD + skift af teacher)
 app.use(coursesRouter);
+
+//  GRADES: (read only)
+app.use(gradesRouter);
+
+//  EXAMS: (fuld CRUD)
+app.use(examsRouter);
 
 // Error Handling Middleware
 app.use(errorhandler);

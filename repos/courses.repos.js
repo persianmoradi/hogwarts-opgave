@@ -8,7 +8,8 @@ export async function getCourses() {
 
 export async function getCourseByID(id) {
     const result = await pool.query(
-        "SELECT courses.id, courses.name, courses.teacher_id, teachers.name AS teacher_name " +
+        "SELECT courses.id, courses.name, courses.teacher_id, teachers.name AS teacher_name, " +
+        "courses.type, courses.level, courses.school_year " +
         "FROM courses LEFT JOIN teachers ON courses.teacher_id = teachers.id " +
         "WHERE courses.id = $1",
         [id]
@@ -23,8 +24,8 @@ export async function getCourseByID(id) {
 
 export async function createCourse(course) {
     const result = await pool.query(
-        "INSERT INTO courses (name, teacher_id) VALUES ($1, $2) RETURNING *",
-        [course.name, course.teacher_id]
+        "insert into courses (name, teacher_id, type, level, school_year) values ($1, $2, $3, $4, $5) returning *",
+        [course.name, course.teacher_id, course.type, course.level, course.school_year]
     );
 
     return result.rows[0];
@@ -32,8 +33,8 @@ export async function createCourse(course) {
 
 export async function updateCourse(id, course) {
     const result = await pool.query(
-        "UPDATE courses SET name = $1 WHERE id = $2 RETURNING *",
-        [course.name, id]
+        "update courses set name = $1, type = $2, level = $3, school_year = $4 where id = $5 returning *",
+        [course.name, course.type, course.level, course.school_year, id]
     );
 
     if (result.rowCount === 0) {

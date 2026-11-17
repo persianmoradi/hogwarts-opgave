@@ -18,8 +18,8 @@ export async function getStudentByID(id) {
 
 export async function createStudent(student) {
     const result = await pool.query(
-        "INSERT INTO students (name, year, house_id) VALUES ($1, $2, $3) RETURNING *",
-        [student.name, student.year, student.house_id]
+        "insert into students (name, birthday, school_year, house_id) values ($1, $2, $3, $4) returning *",
+        [student.name, student.birthday, student.school_year, student.house_id]
     );
 
     return result.rows[0];
@@ -27,8 +27,8 @@ export async function createStudent(student) {
 
 export async function updateStudent(id, student) {
     const result = await pool.query(
-        "UPDATE students SET name = $1, year = $2, house_id = $3 WHERE id = $4 RETURNING *",
-        [student.name, student.year, student.house_id, id]
+        "update students set name = $1, birthday = $2, school_year = $3, house_id = $4 where id = $5 returning *",
+        [student.name, student.birthday, student.school_year, student.house_id, id]
     );
 
     if (result.rowCount === 0) {
